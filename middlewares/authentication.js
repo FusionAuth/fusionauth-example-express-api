@@ -12,7 +12,7 @@ const authentication = async (req, res, next) => {
         try {
             await jose.jwtVerify(access_token, jwksClient, {
                 issuer: 'http://localhost:9011',
-                audience: 'e9fdb985-9173-4e01-9d73-ac2d60d1dc8f',
+                audience: 'e9fdb985-9173-4e01-9d73-ac2d60d1dc8e',
             })
             next();
         } catch (e) {

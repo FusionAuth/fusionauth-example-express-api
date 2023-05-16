@@ -23,7 +23,7 @@
 
         const refresh = async function () {
             result.appendChild(document.createElement('li')).innerText = 'Refreshing Token';
-            const response = await fetch('http://localhost:9011/app/refresh/e9fdb985-9173-4e01-9d73-ac2d60d1dc8f', {
+            const response = await fetch('http://localhost:9011/app/refresh/e9fdb985-9173-4e01-9d73-ac2d60d1dc8e', {
                 method: 'POST',
                 credentials: 'include',
                 mode: 'cors',
@@ -59,7 +59,7 @@
         document.getElementById('refresh').addEventListener('click', refresh);
 
         document.getElementById('login').addEventListener('click', function () {
-            window.location = 'http://localhost:9011/app/login/e9fdb985-9173-4e01-9d73-ac2d60d1dc8f?redirect_url=http://localhost:5173/&scope=offline_access+openid';
+            window.location = 'http://localhost:9011/app/login/e9fdb985-9173-4e01-9d73-ac2d60d1dc8e?redirect_url=http://localhost:5173/&scope=offline_access+openid';
         });
 
         document.getElementById('user').addEventListener('click',  async function () {
@@ -76,7 +76,7 @@
         });
 
         document.getElementById('logout').addEventListener('click', function () {
-            window.location = 'http://localhost:9011/app/logout/e9fdb985-9173-4e01-9d73-ac2d60d1dc8f?redirect_url=http://localhost:5173/';
+            window.location = 'http://localhost:9011/app/logout/e9fdb985-9173-4e01-9d73-ac2d60d1dc8e?redirect_url=http://localhost:5173/';
         });
     });
 </script>
