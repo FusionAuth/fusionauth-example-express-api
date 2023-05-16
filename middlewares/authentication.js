@@ -1,6 +1,6 @@
 const jose = require('jose')
 
-const jwksClient = jose.createRemoteJWKSet(new URL(process.env.FUSIONAUTH_SERVER_URL + '/.well-known/jwks.json'));
+const jwksClient = jose.createRemoteJWKSet(new URL('http://localhost:9011/.well-known/jwks.json'));
 
 const authentication = async (req, res, next) => {
     const access_token = req.cookies['app.at'];
@@ -11,8 +11,8 @@ const authentication = async (req, res, next) => {
     } else {
         try {
             await jose.jwtVerify(access_token, jwksClient, {
-                issuer: process.env.FUSIONAUTH_ISSUER,
-                audience: process.env.FUSIONAUTH_CLIENT_ID,
+                issuer: 'http://localhost:9011',
+                audience: 'e9fdb985-9173-4e01-9d73-ac2d60d1dc8f',
             })
             next();
         } catch (e) {
