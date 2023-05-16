@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<button id="login">Login</button>
+
+<button id="call">Call API</button>
+
+<button id="refresh">Refresh token</button>
+
+<button id="user">Retrieve FusionAuth user information</button>
+
+<button id="logout">Logout</button>
+
+<div style="margin-top: 1em; padding: 1em; font-family: monospace; background: silver; border-radius: .5em; border: 1px solid grey;">
+    <ul id="result" style="list-style: none; padding: 0; margin: 0">
+    </ul>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const result = document.getElementById('result');
+
+        const refresh = async function () {
+            result.appendChild(document.createElement('li')).innerText = 'Refreshing Token';
+            const response = await fetch('http://localhost:9011/app/refresh/e9fdb985-9173-4e01-9d73-ac2d60d1dc8f', {
+                method: 'POST',
+                credentials: 'include',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (response.status === 200) {
+                result.appendChild(document.createElement('li')).innerText = '200 - OK - Token refreshed';
+            } else {
+                result.appendChild(document.createElement('li')).innerText = response.status + ' - ' + response.statusText + ' - ' + await response.text();
+            }
+        }
+
+        document.getElementById('call').addEventListener('click', async function () {
+            const response = await fetch('http://localhost:3000/', {
+                credentials: 'include',
+            });
+
+            const payload = await response.json();
+            if (response.status === 200) {
+                result.appendChild(document.createElement('li')).innerText = '200 - OK - ' + payload.message;
+            } else {
+                result.appendChild(document.createElement('li')).innerText = response.status + ' - ' + response.statusText + ' - ' + (payload.code || payload.error);
+
+                if (payload.code === 'ERR_JWT_EXPIRED') {
+                    await refresh();
+                }
+            }
+        });
+
+        document.getElementById('refresh').addEventListener('click', refresh);
+
+        document.getElementById('login').addEventListener('click', function () {
+            window.location = 'http://localhost:9011/app/login/e9fdb985-9173-4e01-9d73-ac2d60d1dc8f?redirect_url=http://localhost:5173/&scope=offline_access+openid';
+        });
+
+        document.getElementById('user').addEventListener('click',  async function () {
+            const response = await fetch('http://localhost:9011/app/me', {
+                credentials: 'include'
+            });
+
+            const text = await response.text();
+            if (response.status === 200) {
+                result.appendChild(document.createElement('li')).innerText = '200 - OK - ' + text;
+            } else {
+                result.appendChild(document.createElement('li')).innerText = response.status + ' - ' + response.statusText + ' - ' + text;
+            }
+        });
+
+        document.getElementById('logout').addEventListener('click', function () {
+            window.location = 'http://localhost:9011/app/logout/e9fdb985-9173-4e01-9d73-ac2d60d1dc8f?redirect_url=http://localhost:5173/';
+        });
+    });
+</script>
+</body>
+</html>
