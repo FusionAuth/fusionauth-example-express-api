@@ -7,13 +7,13 @@ const authentication = async (req, res, next) => {
 
     if (!access_token) {
         res.status(401);
-        res.send({error: 'No access token found'});
+        res.send({error: 'Missing token cookie and Authorization header'});
     } else {
         try {
             await jose.jwtVerify(access_token, jwksClient, {
                 issuer: 'http://localhost:9011',
                 audience: 'e9fdb985-9173-4e01-9d73-ac2d60d1dc8e',
-            })
+            });
             next();
         } catch (e) {
             if (e instanceof jose.errors.JOSEError) {
