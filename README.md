@@ -1,3 +1,5 @@
+**This repo is out of date and is archived. Check out [an updated tutorial on using an API with FusionAuth and Express](https://fusionauth.io/docs/quickstarts/quickstart-javascript-express-api) or [the updated GitHub repository](https://github.com/fusionauth/fusionauth-quickstart-javascript-express-api).**
+
 # Example: Using Express.js API with FusionAuth
 This project contains an example project that illustrates using FusionAuth with an Express.js API.
 
